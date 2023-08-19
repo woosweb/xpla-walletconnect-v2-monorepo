@@ -27,8 +27,12 @@
     "watch": "tsc -p tsconfig.json --watch",
     "build": "run-s clean compile",
     "start": "npm run build && node ./dist",
+    "start:prod": "node ./dist",
+    "start:pm2": "pm2 start npm --name relay -- run start:prod",
     "test": "env TS_NODE_PROJECT=\"tsconfig.json\" mocha --exit -r ts-node/register ./test/**/*.spec.ts",
-    "lint": "eslint -c '../../.eslintrc' --fix './src/**/*.ts'"
+    "lint": "eslint -c '../../.eslintrc' --fix './src/**/*.ts'",
+    "sync:up": "aws s3 sync . s3://walletconnect.xpla.io --exclude '.git/*' --exclude 'dist/*' --exclude 'node_modules/*' --exclude '.husky/*' --exclude '.vscode/*' --exclude '.DS_Store' --exclude 'package-lock.json' --exclude '.envrc'",
+    "sync:down": "aws s3 sync s3://walletconnect.xpla.io . --exclude '.git/*' --exclude 'dist/*' --exclude 'node_modules/*' --exclude '.husky/*' --exclude '.vscode/*' --exclude '.DS_Store' --exclude 'package-lock.json' --exclude '.envrc'"
   },
   "dependencies": {
     "@json-rpc-tools/utils": "^1.7.2",
